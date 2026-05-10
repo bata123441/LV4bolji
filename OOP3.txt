@@ -1,0 +1,8 @@
+namespace VjezbaLV4
+{
+    // Sučelje definira metodu za usporedbu dva objekta istog tipa
+    public interface IUsporediPovrsinu<T>
+    {
+        int Usporedi(T lik);
+    }
+}

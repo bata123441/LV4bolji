@@ -1,0 +1,87 @@
+using System;
+
+namespace VjezbaLV4
+{
+    enum Mjeseci { Sijecanj = 1, Veljaca, Ozujak, Travanj, Svibanj, Lipanj, Srpanj, Kolovoz, Rujan, Listopad, Studeni, Prosinac }
+
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            // --- TEST GEOMETRIJE (Zadaci 1, 2, 3) ---
+            GeometrijskiLik.BojaGL(); // Statički poziv
+            PravokutniTrokut t1 = new PravokutniTrokut(10, 5, "Zelena");
+            PravokutniTrokut t2 = new PravokutniTrokut(20, 10, "Crvena");
+            t1.Crtaj();
+            Console.WriteLine("Usporedba t1 i t2: " + t1.Usporedi(t2));
+
+            // --- ZADATAK 5: MJESECI I IZNIMKE ---
+            int[] statistika = new int[13]; // 0 za greške, 1-12 za mjesece
+
+            Console.WriteLine("\n--- IZBORNIK MJESECI ---");
+            foreach (var m in Enum.GetValues(typeof(Mjeseci)))
+                Console.WriteLine($"{(int)m}. {m}");
+
+            while (true)
+            {
+                Console.WriteLine("\nUnesite broj mjeseca (ESC za kraj):");
+                
+                // Provjera za ESC tipku
+                if (Console.KeyAvailable)
+                {
+                    var tipka = Console.ReadKey(true);
+                    if (tipka.Key == ConsoleKey.Escape) break;
+                }
+
+                string unos = Console.ReadLine();
+                if (string.IsNullOrEmpty(unos)) continue;
+
+                try
+                {
+                    // Provjera je li string (ako TryParse ne uspije)
+                    if (!double.TryParse(unos, out double realni))
+                    {
+                        throw new StringException("GRESKA: Unijeli ste tekst umjesto broja!");
+                    }
+
+                    // Provjera je li realni broj (ako ima točku ili zarez)
+                    if (unos.Contains(".") || unos.Contains(","))
+                    {
+                        throw new Exception("GRESKA: Unijeli ste realni broj! Samo cijeli su dozvoljeni.");
+                    }
+
+                    int broj = int.Parse(unos);
+
+                    if (Enum.IsDefined(typeof(Mjeseci), broj))
+                    {
+                        Console.WriteLine("Odabrali ste mjesec: " + (Mjeseci)broj);
+                        statistika[broj]++;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Broj nije u rangu 1-12.");
+                        statistika[0]++;
+                    }
+                }
+                catch (StringException ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    IspisiStatistiku(statistika);
+                    break; // Prekid programa
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message + " Pokušajte ponovo.");
+                }
+            }
+        }
+
+        static void IspisiStatistiku(int[] polje)
+        {
+            Console.WriteLine("\n--- KONAČNA STATISTIKA ---");
+            for (int i = 1; i <= 12; i++)
+                Console.WriteLine($"{(Mjeseci)i}: {polje[i]} puta");
+            Console.WriteLine("Pogrešni cijeli brojevi: " + polje[0]);
+        }
+    }
+}

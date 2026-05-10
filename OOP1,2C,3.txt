@@ -1,0 +1,39 @@
+using System;
+
+namespace VjezbaLV4
+{
+    // Nasljeđuje GeometrijskiLik i "potpisuje" ugovor IUsporediPovrsinu
+    public class PravokutniTrokut : GeometrijskiLik, IUsporediPovrsinu<PravokutniTrokut>
+    {
+        public double KatetaA { get; set; }
+        public double KatetaB { get; set; }
+
+        // Zadatak 2c: Brojač samo za trokute
+        public static int BrojacTrokuta = 0;
+
+        public PravokutniTrokut(double a, double b, string boja) : base(boja)
+        {
+            this.KatetaA = a;
+            this.KatetaB = b;
+            BrojacTrokuta++;
+        }
+
+        // Moramo implementirati Crtaj() jer je u bazi abstract
+        public override void Crtaj()
+        {
+            Console.WriteLine($"Crtam trokut boja: {Boja}, Površina: {Povrsina()}");
+        }
+
+        public override double Povrsina()
+        {
+            return (KatetaA * KatetaB) / 2.0;
+        }
+
+        // Implementacija sučelja za usporedbu
+        public int Usporedi(PravokutniTrokut drugi)
+        {
+            if (this.Povrsina() == drugi.Povrsina()) return 0;
+            return (this.Povrsina() > drugi.Povrsina()) ? 1 : 2;
+        }
+    }
+}

@@ -1,0 +1,16 @@
+using System;
+
+namespace VjezbaLV4
+{
+    // Zadatak 5: Iznimka za slučaj unosa teksta
+    public class StringException : Exception
+    {
+        public StringException(string message) : base(message) { }
+    }
+
+    // Zadatak 6: Iznimka za pogreške u transakcijama
+    public class TransactionException : Exception
+    {
+        public TransactionException(string message) : base(message) { }
+    }
+}

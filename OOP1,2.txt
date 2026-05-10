@@ -1,0 +1,31 @@
+using System;
+
+namespace VjezbaLV4
+{
+    // Zadatak 1: Klasa mora biti abstract jer ima barem jednu apstraktnu metodu
+    public abstract class GeometrijskiLik
+    {
+        public string Boja { get; set; }
+        
+        // Zadatak 2b: Statički brojač zajednički za sve likove
+        public static int BrojZelenihLikova = 0;
+
+        public GeometrijskiLik(string boja)
+        {
+            this.Boja = boja;
+            // Ako je boja zelena, uvećaj statički brojač
+            if (boja.ToLower() == "zelena")
+                BrojZelenihLikova++;
+        }
+
+        // Apstraktne metode nemaju tijelo {}, one su samo "obećanje"
+        public abstract void Crtaj();
+        public abstract double Povrsina();
+
+        // Zadatak 2d: Statička funkcija (poziva se preko imena klase)
+        public static void BojaGL()
+        {
+            Console.WriteLine("Zadana boja klase GeometrijskiLik je: Zelena");
+        }
+    }
+}
